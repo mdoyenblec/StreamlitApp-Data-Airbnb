@@ -18,7 +18,7 @@ def main():
     st.title("Airbnb Paris Data Analysis September 2023")
     st.sidebar.success("Select a page above 👋🏼 !")
 
-    default_file_path = "/Users/maximedoyen-blec/Desktop/PythonYS/data_paris/paris_sep_2023.csv"
+    default_file_path = "~/Desktop/PythonYS/data_paris/paris_sep_2023.csv"
     data = load_data(default_file_path)
 
     with st.spinner(text='In progress...'):
