@@ -9,8 +9,8 @@ import time
 
 
 
-def load_data(file_path):
-    data = pd.read_csv(file_path)
+def load_data(uploaded_file):
+    data = pd.read_csv(uploaded_file)
     return data
 
 def main():
