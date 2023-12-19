@@ -65,7 +65,7 @@ def main():
 
     # LINK JUPYTER NOTEBOOK
     st.subheader("Lien suite de l'analyse (Jupyter Notebook)") 
-    jupyter_notebook_url = 'https://nbviewer.org/github/Madone-beep/Airbnb-Paris-Analysis-Notebook/blob/main/notebook.ipynb'
+    jupyter_notebook_url = 'https://nbviewer.org/github/mdoyenblec/Airbnb-Paris-Analysis-Notebook/blob/main/notebook.ipynb'
     link_markdown = f'[Click here to open notebook]({jupyter_notebook_url})'
     st.markdown(link_markdown, unsafe_allow_html=True)
 
