@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.title('Airbnb Londres Analyse de marché V2')
+st.title('Airbnb Londres Analyse de marché')
 st.title('Hello')
 
 DATA_URL = ('http://data.insideairbnb.com/united-kingdom/england/london/2023-09-06/visualisations/listings.csv')
