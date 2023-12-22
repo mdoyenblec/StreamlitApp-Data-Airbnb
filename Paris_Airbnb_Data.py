@@ -38,6 +38,16 @@ st.subheader('Nombre de Biens par Quartier')
 count_per_neighbourhood = data['neighbourhood'].value_counts()
 st.bar_chart(count_per_neighbourhood)
 
+st.subheader('Nombre de Biens par Quartier')
+average_price_per_neighborhood = data.groupby('neighbourhood')['price'].mean().reset_index()
+average_price_per_neighborhood_sorted = average_price_per_neighborhood.sort_values(by='price', ascending=True)
+chart = alt.Chart(average_price_per_neighborhood_sorted).mark_bar().encode(
+    x='neighbourhood:N',
+    y='price:Q'
+)
+chart.show()
+
+
 
 st.subheader('Carte Dynamique avec Prix des Logements')
 st.map(data)
