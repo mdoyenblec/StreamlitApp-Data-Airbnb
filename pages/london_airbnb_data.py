@@ -1,63 +1,49 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import altair as alt
-import matplotlib.pyplot as plt
-import time
+import plotly.express as px
 
+st.title('Airbnb Londres Analyse de marché V2')
+st.title('Hello')
 
+DATA_URL = ('http://data.insideairbnb.com/united-kingdom/england/london/2023-09-06/visualisations/listings.csv')
 
-
-def load_data(uploaded_file):
-    data = pd.read_csv(uploaded_file)
+@st.cache
+def load_data(nrows):
+    data = pd.read_csv(DATA_URL, nrows=nrows)
+    lowercase = lambda x: str(x).lower()
+    data.rename(lowercase, axis='columns', inplace=True)
     return data
 
-def main():
-    st.title("Airbnb London Data Analysis September 2023")
-    st.sidebar.success("Select a page above 👋🏼 !")
+data_load_state = st.text('Chargement des données...')
+data = load_data(10000)
+data_load_state.text("Fait! (using st.cache)")
 
-    uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
-    data = load_data(uploaded_file)
-
-    with st.spinner(text='In progress...'):
-        time.sleep(3)
-
-    st.subheader("Raw Data")
+if st.checkbox('Afficher les données raw'):
+    st.subheader('Raw data')
     st.write(data)
-    
-    ### PLOT 1 : Listings par arrondissement ###
-    st.subheader("Number of Listings per Neighbourhood")
-    grouped_data = data[["id", "neighbourhood_cleansed"]].groupby("neighbourhood_cleansed").count().sort_values(by="id", ascending=False)
 
-    bar_chart = alt.Chart(grouped_data.reset_index()).mark_bar().encode(
-        y=alt.Y('neighbourhood_cleansed:N', title='Neighbourhood', sort='-x'),
-        x=alt.X('id:Q', title='Number of Listings')
-    ).properties(
-        width=1200,
-        height=1000
-    )
-    st.altair_chart(bar_chart, use_container_width=True)
+st.subheader('Prix Moyen à Londres')
+average_price_londres = data['price'].mean()
+st.write(f"Le prix moyen à Londres est de {average_price_londres:.2f} €")
+
+st.subheader('Prix Moyen par Quartier (Interactif)')
+average_price_per_neighborhood = data.groupby('neighbourhood')['price'].mean().reset_index()
+fig = px.bar(average_price_per_neighborhood, x='neighbourhood', y='price', 
+             labels={'price': 'Prix Moyen', 'neighbourhood': 'Quartier'},
+             title="Prix Moyen par Quartier à Londres")
+st.plotly_chart(fig)
+
+st.subheader('Nombre de Biens par Quartier')
+count_per_neighbourhood = data['neighbourhood'].value_counts()
+st.bar_chart(count_per_neighbourhood)
+
+st.subheader('Carte Dynamique avec Prix des Logements')
+st.map(data)
+
+st.subheader('Nombre de Logements par Propriétaire')
+properties_per_owner = data['host_name'].value_counts().head(10)  
+st.bar_chart(properties_per_owner)
+
+
+
         
-        
-    ### PLOT 2 : Listings par accommodates ###
-    st.subheader("Number of Listings per Accommodates 🧑🏻‍🦰👨🏼‍🦰")
-    grouped_data_2 = data.groupby("accommodates").count().loc[:,"id"]
-
-    bar_chart_2 = alt.Chart(grouped_data_2.reset_index()).mark_bar().encode(
-        x=alt.X('accommodates:N', title='Accommodates'),
-        y=alt.Y('id:Q', title='Number of listings')
-            
-    ).properties(
-        width=900,
-        height=700
-    )
-    st.altair_chart(bar_chart_2, use_container_width=True)
-
-
-
-    ### GEOMAP JSON : Listings ###
-    st.subheader("Visual Representation Listings ")
-    st.map(data)
-
-if __name__ == "__main__":
-    main()
