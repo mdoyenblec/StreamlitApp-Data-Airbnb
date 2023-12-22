@@ -28,7 +28,7 @@ st.write(f"Le prix moyen à Paris est de {average_price_paris:.2f} €")
 
 st.subheader('Prix Moyen par Quartier (Interactif)')
 average_price_per_neighborhood = data.groupby('neighbourhood')['price'].mean().reset_index()
-average_price_per_neighborhood_sorted = average_price_per_neighborhood.sort_values(by='price', ascending=True)
+average_price_per_neighborhood_sorted = average_price_per_neighborhood.sort_values(by='price', ascending=False)
 fig = px.bar(average_price_per_neighborhood_sorted, x='neighbourhood', y='price', 
              labels={'price': 'Prix Moyen', 'neighbourhood': 'Quartier'},
              title="Prix Moyen par Quartier à Paris")
