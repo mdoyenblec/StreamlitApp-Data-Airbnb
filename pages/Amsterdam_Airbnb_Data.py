@@ -43,7 +43,8 @@ st.map(data)
 
 st.subheader('Nombre de Logements par Propriétaire')
 properties_per_owner = data['host_name'].value_counts().head(10)  
-st.bar_chart(properties_per_owner)
+properties_per_owner_sorted = properties_per_owner.sort_values(ascending=False)
+st.bar_chart(properties_per_owner_sorted)
 
 
 
