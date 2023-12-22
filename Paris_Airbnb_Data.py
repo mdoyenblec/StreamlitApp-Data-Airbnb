@@ -34,15 +34,9 @@ fig = px.bar(average_price_per_neighborhood_sorted, x='neighbourhood', y='price'
              title="Prix Moyen par Quartier à Paris")
 st.plotly_chart(fig)
 
-st.subheader('Nombre de Biens par Quartier2')
-average_price_per_neighborhood = data.groupby('neighbourhood')['price'].mean().reset_index()
-average_price_per_neighborhood_sorted = average_price_per_neighborhood.sort_values(by='price', ascending=False)
-chart = alt.Chart(average_price_per_neighborhood_sorted).mark_bar().encode(
-    x='price:N',
-    y='neighbourhood:Q'
-)
-st.altair_chart(chart)
-
+st.subheader('Nombre de Biens par Quartier')
+count_per_neighbourhood = data['neighbourhood'].value_counts()
+st.bar_chart(count_per_neighbourhood)
 
 
 st.subheader('Carte Dynamique avec Prix des Logements')
