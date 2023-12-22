@@ -33,11 +33,11 @@ fig = px.bar(average_price_per_neighborhood, x='neighbourhood', y='price',
              title="Prix Moyen par Quartier à Paris")
 st.plotly_chart(fig)
 
-st.subheader('Nombre de biens par Quartier')
-count_per_neighborhood = data['neighbourhood'].value_counts()
-fig = px.bar(count_per_neighborhood, x='id', y='neighbourhood', 
-             labels={'id': 'Listings', 'neighbourhood': 'Quartier'},
-             title="Nombre de biens par Quartier à Paris")
+count_per_neighbourhood = data['neighbourhood'].value_counts().reset_index()
+count_per_neighbourhood.columns = ['Quartier', 'Nombre de Biens']
+fig = px.bar(count_per_neighbourhood, y='Quartier', x='Nombre de Biens',
+             labels={'Quartier': 'Quartier', 'Nombre de Biens': 'Nombre de Biens'},
+             title="Nombre de Biens par Quartier à Paris")
 st.plotly_chart(fig)
 
 
