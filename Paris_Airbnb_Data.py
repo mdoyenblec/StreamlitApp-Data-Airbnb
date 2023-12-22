@@ -34,8 +34,7 @@ fig = px.bar(average_price_per_neighborhood, x='neighbourhood', y='price',
 st.plotly_chart(fig)
 
 st.subheader('Nombre de Biens par Quartier')
-count_per_neighbourhood = data['neighbourhood'].value_counts()
-count_per_neighbourhood = count_per_neighbourhood.sort_values(ascending=False)
+count_per_neighbourhood = data['neighbourhood'].value_counts().sort_values(ascending=False)
 st.bar_chart(count_per_neighbourhood)
 
 
